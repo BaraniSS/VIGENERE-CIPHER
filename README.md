@@ -19,18 +19,93 @@ alphabet shifted cyclically to the left compared to the previous alphabet, corre
 
 ## ALGORITHM:
 
-STEP-1: Arrange the alphabets in row and column of a 26*26 matrix.
+STEP-1: Arrange the alphabets in row and column of a 26*26 matrix
+.
 STEP-2: Circulate the alphabets in each row to position left such that the first letter is attached to last.
+
 STEP-3: Repeat this process for all 26 rows and construct the final key matrix.
+
 STEP-4: The keyword and the plain text is read from the user.
+
 STEP-5: The characters in the keyword are repeated sequentially so as to match with that of the plain text.
+
 STEP-6: Pick the first letter of the plain text and that of the keyword as the row indices and column indices respectively.
+
 STEP-7: The junction character where these two meet forms the cipher character.
+
 STEP-8: Repeat the above steps to generate the entire cipher text.
 
 
 ## PROGRAM
+```
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
+int main()
+{
+char text[500], key[100];
+int i, j = 0;
+int textLen, keyLen;
+
+
+printf("Enter the plaintext: ");
+fgets(text, sizeof(text), stdin);
+
+printf("Enter the keyword: ");
+fgets(key, sizeof(key), stdin);
+
+textLen = strlen(text);
+keyLen = strlen(key);
+
+if (textLen > 0 && text[textLen - 1] == '\n')
+    text[--textLen] = '\0';
+
+if (keyLen > 0 && key[keyLen - 1] == '\n')
+    key[--keyLen] = '\0';
+
+if (keyLen == 0)
+{
+    printf("Invalid keyword!\n");
+    return 1;
+}
+
+printf("Encrypted Text: ");
+
+for (i = 0; i < textLen; i++)
+{
+    if (isalpha((unsigned char)text[i]))
+    {
+        char ch = toupper((unsigned char)text[i]);
+        char k = toupper((unsigned char)key[j % keyLen]);
+
+        if (!isalpha((unsigned char)k))
+        {
+            printf("\nKeyword must contain only letters.\n");
+            return 1;
+        }
+
+        printf("%c", ((ch - 'A' + k - 'A') % 26) + 'A');
+        j++;
+    }
+    else
+    {
+        printf("%c", text[i]);
+    }
+}
+
+printf("\n");
+
+return 0;
+
+
+}
+
+```
 
 ## OUTPUT
+<img width="1919" height="1091" alt="image" src="https://github.com/user-attachments/assets/19b07183-adf9-4c0b-ba21-35f0355546ca" />
+
 
 ## RESULT
+Thus the above program is executed and the output is verified.
